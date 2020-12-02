@@ -1,21 +1,23 @@
+# frozen_string_literal: true
+
 require 'omniauth-oauth2'
 
 module OmniAuth
   module Strategies
     class Twitch < OmniAuth::Strategies::OAuth2
-      DEFAULT_SCOPE = "user:read:email".freeze
+      DEFAULT_SCOPE = 'user:read:email'.freeze
 
-      option :name, "twitch"
+      option :name, 'twitch'
 
       option :client_options, {
-        site: "https://id.twitch.tv",
-        authorize_url: "/oauth2/authorize",
-        token_url: "/oauth2/token"
+        site: 'https://id.twitch.tv',
+        authorize_url: '/oauth2/authorize',
+        token_url: '/oauth2/token'
       }
 
       option :access_token_options, {
-        header_format: "Bearer %s",
-        param_name: "access_token"
+        header_format: 'Bearer %s',
+        param_name: 'access_token'
       }
 
       option :authorize_options, [:scope]
@@ -23,28 +25,28 @@ module OmniAuth
       def request_phase
         redirect client.auth_code.
           authorize_url({ redirect_uri: callback_url }.merge(authorize_params)).
-          gsub(/%2[b,B]/, "+")
+          gsub(/%2[b,B]/, '+')
       end
 
       credentials do
-        hash = { "token" => access_token.token }
+        hash = { 'token' => access_token.token }
         if access_token.refresh_token
-          hash["refresh_token"] = access_token.refresh_token
+          hash['refresh_token'] = access_token.refresh_token
         end
-        hash["expires_at"] = access_token.expires_at if access_token.expires?
-        hash["expires"] = access_token.expires?
+        hash['expires_at'] = access_token.expires_at if access_token.expires?
+        hash['expires'] = access_token.expires?
         hash
       end
 
-      uid { raw_info["id"] }
+      uid { raw_info['id'] }
 
       info do
         {
-          name: raw_info["display_name"],
-          email: raw_info["email"],
-          nickname: raw_info["login"],
-          description: raw_info["description"],
-          image: raw_info["profile_image_url"],
+          name: raw_info['display_name'],
+          email: raw_info['email'],
+          nickname: raw_info['login'],
+          description: raw_info['description'],
+          image: raw_info['profile_image_url'],
           urls: { Twitch: "http://www.twitch.tv/#{raw_info['login']}" }
         }
       end
@@ -57,9 +59,9 @@ module OmniAuth
 
       def raw_info
         @raw_info ||=
-          access_token.get("https://api.twitch.tv/helix/users",
-            headers: { "Client-ID" => client.id }).parsed.
-          fetch("data").fetch(0)
+          access_token.get('https://api.twitch.tv/helix/users',
+            headers: { 'Client-ID' => client.id }).parsed.
+          fetch('data').fetch(0)
       end
 
       def build_access_token

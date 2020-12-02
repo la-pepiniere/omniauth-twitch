@@ -1,24 +1,25 @@
-# coding: utf-8
+# frozen_string_literal: true
+
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'omniauth/twitch/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "omniauth-twitch"
+  spec.name          = 'omniauth-twitch'
   spec.version       = OmniAuth::Twitch::VERSION
-  spec.authors       = ["Jonathan Gertig (Webtheory) and William Holt (Webtheory)"]
-  spec.email         = ["jcgertig@gmail.com or sithtoast@gmail.com"]
+  spec.authors       = ['Jonathan Gertig (Webtheory) and William Holt (Webtheory)']
+  spec.email         = ['jcgertig@gmail.com or sithtoast@gmail.com']
   spec.summary       = 'Twitch OAuth2 Strategy for OmniAuth'
-  spec.homepage      = "https://github.com/WebTheoryLLC/omniauth-twitch"
-  spec.license       = "MIT"
+  spec.homepage      = 'https://github.com/WebTheoryLLC/omniauth-twitch'
+  spec.license       = 'MIT'
 
   spec.files         = `git ls-files`.split($/)
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
-  spec.require_paths = ["lib"]
+  spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'omniauth-oauth2', '~> 1.6'
+  spec.add_runtime_dependency 'omniauth-oauth2', '~> 1.7'
 
-  spec.add_development_dependency "bundler", "~> 2.1"
-  spec.add_development_dependency "rake"
+  spec.add_development_dependency 'bundler', '~> 2.1'
+  spec.add_development_dependency 'rake'
 end
